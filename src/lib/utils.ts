@@ -11,8 +11,12 @@ export function exportDailySummaryToTxt(summary: DailySummary): void {
   content += `Data: ${formattedDate}\n`;
   content += `==========================================\n\n`;
   
+  content += `RESUMO OPERACIONAL:\n`;
+  content += `- Mesas Abertas: ${summary.openTables}\n`;
+  content += `- Mesas Criadas Hoje: ${summary.tablesCreatedToday}\n`;
+  content += `- Total de Pedidos: ${summary.totalOrders}\n\n`;
+  
   content += `RESUMO FINANCEIRO:\n`;
-  content += `- Total de Pedidos: ${summary.totalOrders}\n`;
   content += `- Faturamento Total: R$ ${summary.totalRevenue.toFixed(2).replace('.', ',')}\n`;
   content += `- Ticket Médio: R$ ${summary.totalOrders > 0 ? (summary.totalRevenue / summary.totalOrders).toFixed(2).replace('.', ',') : '0,00'}\n\n`;
   
@@ -55,5 +59,9 @@ export function formatDateShort(date: Date): string {
 }
 
 export function getCurrentDateString(): string {
-  return format(new Date(), 'yyyy-MM-dd');
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }

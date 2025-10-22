@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Clock, Check, X, CreditCard } from 'lucide-react';
-import { db, Order, Table, MenuItem } from '@/lib/database';
+import { Order, Table, MenuItem } from '@/lib/database';
+import db from '@/lib/database';
 import { formatCurrency, formatDate } from '@/lib/utils';
 
 const ORDER_STATUS_CONFIG = {

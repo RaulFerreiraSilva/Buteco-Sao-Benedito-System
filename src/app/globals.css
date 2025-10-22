@@ -5,17 +5,9 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
   }
 }
 
@@ -23,4 +15,87 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* Prevenir bounce scroll em iOS */
+  overscroll-behavior-y: none;
+  /* Altura fixa para evitar problemas com teclado virtual */
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Classe para componentes principais */
+.app-container {
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height para mobile */
+  overflow: hidden;
+}
+
+/* Responsividade específica para o sistema */
+@media (max-width: 640px) {
+  /* Ajustes para telas pequenas */
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  /* Melhor scroll em dispositivos touch */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ajustar altura de elementos em mobile */
+  .mobile-safe-height {
+    height: calc(100vh - 4rem);
+    height: calc(100dvh - 4rem);
+  }
+  
+  /* Prevenir zoom em inputs */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Utilitários para truncar texto */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Touch targets maiores em mobile */
+@media (max-width: 640px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Melhorar modal em mobile */
+  .modal-mobile {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 50;
+  }
+}
+
+/* Fixes para Safari iOS */
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: -webkit-fill-available;
+  }
+  
+  .app-container {
+    height: -webkit-fill-available;
+  }
 }

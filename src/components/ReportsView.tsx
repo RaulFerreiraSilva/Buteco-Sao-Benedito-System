@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Download, Calendar, TrendingUp, Users, Coffee } from 'lucide-react';
-import { db, DailySummary } from '@/lib/database';
+import { DailySummary } from '@/lib/database';
+import db from '@/lib/database';
 import { formatCurrency, getCurrentDateString, exportDailySummaryToTxt } from '@/lib/utils';
 
 export default function ReportsView() {
@@ -68,7 +69,31 @@ export default function ReportsView() {
       ) : summary ? (
         <div className="space-y-6">
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Mesas Abertas</p>
+                  <p className="text-2xl font-bold text-blue-600">{summary.openTables}</p>
+                </div>
+                <div className="p-3 bg-blue-100 rounded-full">
+                  <Users className="h-6 w-6 text-blue-600" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Mesas Criadas Hoje</p>
+                  <p className="text-2xl font-bold text-purple-600">{summary.tablesCreatedToday}</p>
+                </div>
+                <div className="p-3 bg-purple-100 rounded-full">
+                  <Calendar className="h-6 w-6 text-purple-600" />
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
@@ -76,7 +101,7 @@ export default function ReportsView() {
                   <p className="text-2xl font-bold text-amber-600">{summary.totalOrders}</p>
                 </div>
                 <div className="p-3 bg-amber-100 rounded-full">
-                  <Users className="h-6 w-6 text-amber-600" />
+                  <Coffee className="h-6 w-6 text-amber-600" />
                 </div>
               </div>
             </div>
@@ -94,18 +119,19 @@ export default function ReportsView() {
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Ticket Médio</p>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {formatCurrency(summary.totalOrders > 0 ? summary.totalRevenue / summary.totalOrders : 0)}
-                  </p>
-                </div>
-                <div className="p-3 bg-blue-100 rounded-full">
-                  <Coffee className="h-6 w-6 text-blue-600" />
-                </div>
+          {/* Ticket Médio */}
+          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Ticket Médio</p>
+                <p className="text-3xl font-bold text-indigo-600">
+                  {formatCurrency(summary.totalOrders > 0 ? summary.totalRevenue / summary.totalOrders : 0)}
+                </p>
+              </div>
+              <div className="p-4 bg-indigo-100 rounded-full">
+                <TrendingUp className="h-8 w-8 text-indigo-600" />
               </div>
             </div>
           </div>
@@ -169,7 +195,7 @@ export default function ReportsView() {
                 Nenhum pedido encontrado
               </h3>
               <p className="text-gray-600 mb-4">
-                Não há pedidos registrados para {new Date(selectedDate).toLocaleDateString('pt-BR')}
+                Não há pedidos registrados para {selectedDate.split('-').reverse().join('/')}
               </p>
               <p className="text-sm text-gray-500">
                 Selecione uma data diferente ou comece a registrar pedidos para ver os relatórios.
